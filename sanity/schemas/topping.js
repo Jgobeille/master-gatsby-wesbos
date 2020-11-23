@@ -1,4 +1,4 @@
-import { FaPepperHot as icon } from 'react-icons/md';
+import { FaPepperHot as icon } from 'react-icons/fa';
 
 export default {
   // computer name
@@ -24,11 +24,13 @@ export default {
       },
     },
   ],
+  // Shows a preview of created options on page
   preview: {
     select: {
       name: 'name',
       vegetarian: 'vegetarian',
     },
+    // Needed for options to appear on page
     prepare: ({ name, vegetarian }) => ({
       title: `${name} ${vegetarian ? '🌱' : ''}`,
     }),
