@@ -1,4 +1,5 @@
 import { MdLocalPizza as icon } from 'react-icons/md';
+import PriceInput from '../components/PriceInput';
 
 export default {
   // computer name
@@ -38,7 +39,7 @@ export default {
       type: 'number',
       description: 'Price of the pizza in cents',
       validation: (Rule) => Rule.min(1000),
-      // TODO: Add custom input component
+      inputComponent: PriceInput,
     },
     {
       name: 'toppings',
@@ -47,20 +48,30 @@ export default {
       // creates array referencing the toppings schema
       of: [{ type: 'reference', to: [{ type: 'topping' }] }],
     },
+    {
+      name: 'vegetarian',
+      title: 'vegetarian',
+      type: 'boolean',
+      description: 'Is this pizza vegetarian?',
+      options: {
+        layout: 'checkbox',
+      },
+    },
   ],
   preview: {
     select: {
       title: 'name',
       media: 'image',
+      vegetarian: 'vegetarian',
       topping0: 'toppings.0.name',
       topping1: 'toppings.1.name',
       topping2: 'toppings.2.name',
       topping3: 'toppings.3.name',
     },
-    prepare: ({ title, media, ...toppings }) => {
+    prepare: ({ title, media, vegetarian, ...toppings }) => {
       const tops = Object.values(toppings).filter(Boolean);
       return {
-        title,
+        title: `${title} ${vegetarian ? '🌱' : ''}`,
         media,
         subtitle: tops.join(','),
       };
