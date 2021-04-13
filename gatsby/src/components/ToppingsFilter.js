@@ -26,17 +26,15 @@ const ToppingsStyles = styled.div`
 `;
 
 const countPizzasInToppings = (pizzas) => {
-  // Get all toppings
-
   // check each pizza topping against all toppings
 
-  // count that topping
+  // Count how many pizzas are in each topping
   const counts = pizzas
     .map((pizza) => pizza.toppings)
     .flat()
     .reduce((acc, topping) => {
-      // check if this is an existing topping
       const existingTopping = acc[topping.id];
+      // check if this is an existing topping
       if (existingTopping) {
         // if it is, increment by 1
         existingTopping.count += 1;
@@ -59,10 +57,6 @@ const countPizzasInToppings = (pizzas) => {
 const ToppingsFilter = () => {
   // Get a list of all the toppings
   // Get a list of all the pizzas with their toppings
-  // Count how many pizzas are in each topping
-
-  // Loop over the list of toppings and display the topping and the count of pizzas in that topping
-  // Link it up
 
   const { toppings, pizzas } = useStaticQuery(graphql`
     query allToppings {
@@ -89,6 +83,7 @@ const ToppingsFilter = () => {
   console.log(toppingsWithCounts);
 
   return (
+    // Loop over the list of toppings and display the topping and the count of pizzas in that topping
     <ToppingsStyles>
       {toppingsWithCounts.map((topping) => (
         <Link key={topping.id} to={`/topping/${topping.name}`}>
