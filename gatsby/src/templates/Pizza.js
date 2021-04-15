@@ -1,7 +1,32 @@
 import { graphql } from 'gatsby';
+import Img from 'gatsby-image';
 import React from 'react';
+import styled from 'styled-components';
 
-const SinglePizzaPage = () => <p>Single Pizza!</p>;
+const SinglePizzaStyles = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 4rem;
+`;
+
+const SinglePizzaPage = ({ data }) => {
+  const { pizza } = data;
+  console.log(pizza);
+
+  return (
+    <SinglePizzaStyles>
+      <Img fluid={pizza.image.asset.fluid} alt={pizza.name} />
+      <div>
+        <h2 className="mark">{pizza.name}</h2>
+        <ul>
+          {pizza.toppings.map((topping) => (
+            <li key={topping.id}>{topping.name}</li>
+          ))}
+        </ul>
+      </div>
+    </SinglePizzaStyles>
+  );
+};
 
 // The slug var comes from Gatsby node context
 // All pages have access to gatsby node content
