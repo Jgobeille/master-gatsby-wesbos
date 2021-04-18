@@ -3,7 +3,7 @@ import Img from 'gatsby-image';
 import React from 'react';
 import styled from 'styled-components';
 
-const SinglePizzaStyles = styled.div`
+const PizzaGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 4rem;
@@ -14,7 +14,7 @@ const SinglePizzaPage = ({ data }) => {
   console.log(pizza);
 
   return (
-    <SinglePizzaStyles>
+    <PizzaGrid>
       <Img fluid={pizza.image.asset.fluid} alt={pizza.name} />
       <div>
         <h2 className="mark">{pizza.name}</h2>
@@ -24,7 +24,7 @@ const SinglePizzaPage = ({ data }) => {
           ))}
         </ul>
       </div>
-    </SinglePizzaStyles>
+    </PizzaGrid>
   );
 };
 

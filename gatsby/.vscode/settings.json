@@ -23,4 +23,12 @@
     "javascript",
     "javascriptreact"
   ],
+  "emmet.showSuggestionsAsSnippets": true,
+  "editor.snippetSuggestions": "top",
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "razor": "html",
+    "plaintext": "pug"
+}
+
 }
