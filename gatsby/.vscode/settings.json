@@ -29,6 +29,10 @@
     "javascript": "javascriptreact",
     "razor": "html",
     "plaintext": "pug"
-}
+},
+"emmet.excludeLanguages": [
+
+  "markdown"
+]
 
 }

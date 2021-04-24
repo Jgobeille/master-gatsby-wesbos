@@ -78,7 +78,7 @@ const fetchBeersAndTurnIntoNodes = async ({
   const res = await fetch('https://api.sampleapis.com/beers/ale');
 
   const beers = await res.json();
-  console.log(beers);
+
   // loop over each one
   for (const beer of beers) {
     // Every node entered in Gatsby needs to have specific metaData so it can be looked up
@@ -107,6 +107,73 @@ const fetchBeersAndTurnIntoNodes = async ({
   }
 };
 
+const turnSlicemastersIntoPages = async ({ graphql, actions }) => {
+  // 1. Query all slicemasters
+  const { data } = await graphql(`
+    query {
+      people: allSanityPerson {
+        totalCount
+        nodes {
+          name
+          id
+          slug {
+            current
+          }
+        }
+      }
+    }
+  `);
+  // TODO; 2. Turn each slicemaster into their own page (TODO)
+  // 3. Figure out how many pages there are based on how many slicemasters there are and how many per page
+  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE);
+  const pageCount = Math.ceil(data.people.totalCount / pageSize);
+  // 4. Loop from 1 to n and create the pages for them
+  Array.from({ length: pageCount }).forEach((_, i) => {
+    actions.createPage({
+      path: `/slicemasters/${i + 1}`,
+      component: path.resolve('./src/pages/slicemasters.js'),
+      // this data is passed to the template when we create it
+      context: {
+        skip: i * pageSize,
+        currentPage: i + 1,
+        pageSize,
+      },
+    });
+  });
+};
+
+const turnSingleSlicemasterIntoPage = async ({ graphql, actions }) => {
+  // get template
+
+  const slicemasterTemplate = path.resolve('./src/templates/Slicemaster.js');
+
+  // query data to get each slicemaster
+  const { data } = await graphql(`
+    query {
+      people: allSanityPerson {
+        nodes {
+          name
+          id
+          slug {
+            current
+          }
+        }
+      }
+    }
+  `);
+
+  data.people.nodes.forEach((person) => {
+    actions.createPage({
+      // What is the URL for this new page??
+      path: `slicemaster/${person.slug.current}`,
+      component: slicemasterTemplate,
+      context: {
+        slug: person.slug.current,
+      },
+    });
+  });
+};
+
 const sourceNodes = async (params) => {
   // fetch a list of beers and source them into our Gatsby API
   await Promise.all([fetchBeersAndTurnIntoNodes(params)]);
@@ -117,12 +184,9 @@ const createPages = async (params) => {
   await Promise.all([
     turnPizzasIntoPages(params),
     turnToppingsIntoPages(params),
+    turnSlicemastersIntoPages(params),
+    turnSingleSlicemasterIntoPage(params),
   ]);
-  // 1.) Pizzas
-
-  // 2.)Toppings
-
-  // 3.) Slicemaster
 };
 
 /**
