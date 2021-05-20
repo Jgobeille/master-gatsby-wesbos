@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
-const OrderStyles = styled.div`
+const OrderStyles = styled.form`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  .pizza {
+    display: none;
+  }
   fieldset {
     grid-column: span 2;
     max-height: 600px;
